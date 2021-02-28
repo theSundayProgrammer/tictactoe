@@ -30,20 +30,20 @@ int main(){
 	play_turn(state, board);
 	display (board);
 	for(; state < 8 ; ){
-					printf("%d\n",state);
+//					printf("%d\n",state);
     auto c = getchar();
 		if (c >= '0' && c < '9') {
-						int index = c - '0';
-						if (board[index] == ESlotStates::empty){
-										board[index] = ESlotStates::cross;
-										if (has_player_won(ESlotStates::cross,board)>=0)
-														break;
-										state += 2;
-										play_turn(state,board);
-										display(board);
-										if (has_player_won(ESlotStates::circle,board)>=0)
-														break;
-						}
+			int index = c - '0';
+			if (board[index] == ESlotStates::empty){
+				board[index] = ESlotStates::cross;
+				if (has_player_won(ESlotStates::cross,board)>=0)
+					break;
+				state += 2;
+				play_turn(state,board);
+				display(board);
+				if (has_player_won(ESlotStates::circle,board)>=0)
+					break;
+			}
 
 		}
 	}
