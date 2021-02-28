@@ -4,4 +4,5 @@
     extern const int lines[][3] ;
     void play_turn(int state,  ESlotStates board[]);
     int has_player_won ( ESlotStates player, const ESlotStates board[]);
+    void fill_any(ESlotStates player,  ESlotStates board[]) ;
 #endif

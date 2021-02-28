@@ -19,7 +19,7 @@ void display(const ESlotStates board[])
   printf("-----\n");
   }
 }
-int main(){
+int main(int argc, char *argv[]){
   ESlotStates board[9] = {
     ESlotStates::empty,ESlotStates::empty,ESlotStates::empty,
     ESlotStates::empty,ESlotStates::empty,ESlotStates::empty,
@@ -27,23 +27,43 @@ int main(){
 
   };
   int state = 0;
-  play_turn(state, board);
+  bool computer = true;
+  if (argc > 1 && argv[1][0]=='-' && argv[1][1]==  'h') computer = false;
+  if (computer) {
+    play_turn(state, board);
+  }
   display (board);
+  ESlotStates winning_player=ESlotStates::empty;
   for(; state < 8 ; ){
     auto c = getchar();
     if (c >= '0' && c < '9') {
       int index = c - '0';
       if (board[index] == ESlotStates::empty){
 	board[index] = ESlotStates::cross;
-	if (has_player_won(ESlotStates::cross,board)>=0)
+	if (has_player_won(ESlotStates::cross,board)>=0){
+	  winning_player = ESlotStates::cross;
 	  break;
+	}
 	state += 2;
 	play_turn(state,board);
 	display(board);
-	if (has_player_won(ESlotStates::circle,board)>=0)
+	if (has_player_won(ESlotStates::circle,board)>=0){
+	  winning_player = ESlotStates::circle;
 	  break;
+	}
       }
 
+    }
+    if (!computer && winning_player==ESlotStates::empty) {
+      fill_any(ESlotStates::cross,board);
+      if( has_player_won(ESlotStates::cross,board)>=0)
+	winning_player = ESlotStates::cross;
+    } 
+
+    if (winning_player==ESlotStates::cross) {
+      printf ("Congratulations! You have won\n");
+    } else if (winning_player==ESlotStates::circle) {
+      printf("Computer has won");
     }
   }
   return 0;
